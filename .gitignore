@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# project
+.cache/
+*.gguf
+gguf_new_metadata.py
+make-ggml.py
+*.log
+.dl-gguf-config
