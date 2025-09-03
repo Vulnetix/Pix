@@ -213,3 +213,4 @@ gguf_new_metadata.py
 make-ggml.py
 *.log
 .dl-gguf-config
+Modelfile

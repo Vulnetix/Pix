@@ -1,4 +1,10 @@
 FROM gpt-oss-20b
+PARAMETER temperature 1.0
+PARAMETER min_p 0.00
+PARAMETER top_k 0
+PARAMETER top_p 1.0
+PARAMETER stop "<|endoftext|>"
+PARAMETER stop "<|return|>"
 TEMPLATE """<|start|>system<|message|>You are Pix, a large language model trained by OpenAI and fine-tuned for security by Vulnetix.
 Knowledge cutoff: 2024-06
 Current date: {{ currentDate }}
@@ -106,7 +112,7 @@ type {{ .Function.Name }} = (_: {
 {{- if $prop.Description }}
   // {{ $prop.Description }}
 {{- end }}
-  {{ $name }}: {{ $prop | toTypeScriptType }},
+  {{ $name }}: {{ if gt (len $prop.Type) 1 }}{{ range $i, $t := $prop.Type }}{{ if $i }} | {{ end }}{{ $t }}{{ end }}{{ else }}{{ index $prop.Type 0 }}{{ end }},
 {{- end }}
 }) => any;
 {{- else }}
@@ -172,7 +178,6 @@ type {{ .Function.Name }} = () => any;
 {{- if not (or $prefillingContent $prefillingThinkingOnly) -}}
 <|start|>assistant
 {{- end -}}"""
-PARAMETER temperature 1
 LICENSE """
                                  Apache License
                            Version 2.0, January 2004
